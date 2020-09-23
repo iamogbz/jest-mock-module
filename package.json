@@ -11,8 +11,7 @@
         "url": "https://github.com/iamogbz/jest-mock-module/issues"
     },
     "homepage": "https://github.com/iamogbz/jest-mock-module#readme",
-    "keywords": [
-    ],
+    "keywords": [],
     "engines": {
         "node": ">=8",
         "npm": ">=6"
@@ -116,5 +115,8 @@
         "ts-jest": "^25.5.1",
         "ts-node": "^9.0.0",
         "typescript": "^3.9.7"
+    },
+    "dependencies": {
+        "jest-mock-props": "^1.7.5"
     }
 }
