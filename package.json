@@ -1,16 +1,16 @@
 {
-    "name": "project-name",
+    "name": "jest-mock-module",
     "version": "0.0.1",
     "description": "Project description",
-    "author": "project-owner",
+    "author": "iamogbz",
     "repository": {
         "type": "git",
-        "url": "https://github.com/project-owner/project-name"
+        "url": "https://github.com/iamogbz/jest-mock-module"
     },
     "bugs": {
-        "url": "https://github.com/project-owner/project-name/issues"
+        "url": "https://github.com/iamogbz/jest-mock-module/issues"
     },
-    "homepage": "https://github.com/iamogbz/node-js-boilerplate#readme",
+    "homepage": "https://github.com/iamogbz/jest-mock-module#readme",
     "keywords": [
     ],
     "engines": {
