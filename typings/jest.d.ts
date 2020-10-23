@@ -1,3 +1,3 @@
 declare namespace jest {
-    const spy = (moduleName: string) => void
+    function spy(moduleName: string): void;
 }
