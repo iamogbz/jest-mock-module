@@ -1,15 +1,7 @@
+import { AnyObject, Mock } from "./types";
 import { mapObject } from "./utils";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ValueOf<O> = O extends Record<infer _, infer T> ? T : any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyRecord = Record<string, any>;
-type AnyObj = object & AnyRecord;
-type Mock<O> = {
-    [K in string]: Mock<ValueOf<O>>;
-};
-
-function maybeSpyOnProp(object: AnyObj, propName: string) {
+function maybeSpyOnProp(object: AnyObject, propName: string) {
     try {
         return require("jest-mock-props").spyOnProp(object, propName);
     } catch (e) {
@@ -19,7 +11,7 @@ function maybeSpyOnProp(object: AnyObj, propName: string) {
     }
 }
 
-export function spyOn(object: AnyObj, propName: string) {
+export function spyOn(object: AnyObject, propName: string) {
     const propValue = object[propName];
     let spyInstance;
     if (typeof propValue === "function") {
@@ -33,7 +25,7 @@ export function spyOn(object: AnyObj, propName: string) {
     return Object.assign(spyInstance, spyOnObject(propValue));
 }
 
-export function spyOnObject<T extends AnyObj>(o?: T): Mock<T> | undefined {
+export function spyOnObject<T extends AnyObject>(o?: T): Mock<T> | undefined {
     if (o === undefined || o === null) return o;
     return mapObject(o, ([k]) => spyOn(o, k));
 }
