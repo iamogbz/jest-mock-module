@@ -99,7 +99,7 @@
         "plugins": [
             "@semantic-release/commit-analyzer",
             "@semantic-release/release-notes-generator",
-            "@semantic-release/npm",
+            ["@semantic-release/npm", { "pkgRoot": "./dist"}],
             "@semantic-release/github"
         ]
     },
@@ -108,11 +108,12 @@
         "url": "https://github.com/iamogbz/jest-mock-module"
     },
     "scripts": {
-        "build": "rm -rf ./dist && tsc --project tsconfig.prod.json",
+        "build": "tsc --project tsconfig.prod.json",
         "build-watch": "tsc --watch",
         "commit": "git-cz",
         "coveralls": "cat ./artifacts/coverage/lcov.info | coveralls",
         "lint": "eslint . --ext .js,.ts",
+        "package": "rm -rf ./dist && npm run build && cp -t ./dist package.json LICENSE",
         "release": "semantic-release",
         "test": "jest",
         "typecheck": "tsc --noEmit"

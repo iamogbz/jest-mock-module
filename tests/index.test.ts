@@ -1,8 +1,9 @@
 import { extend } from "src/index";
 extend(jest);
-jest.spy("/Users/Emmanuel/Sources/jest-mock-module/tests/index.mock");
+jest.spy("tests/mocks/hello");
 
-import sayHello, { say, shout } from "./index.mock";
+import { say, shout } from "./mocks/hello";
+import sayHello from "./mocks/index";
 
 afterEach(jest.clearAllMocks);
 
@@ -13,9 +14,9 @@ it("spys on methods called", () => {
     ((say as unknown) as jest.SpyInstance).mockImplementationOnce(
         () => "something",
     );
-    expect(sayHello("Who")).toEqual("SOMETHING");
+    expect(sayHello("Who")).toEqual("SOMETHING!");
     ((shout as unknown) as jest.SpyInstance).mockImplementationOnce(
         (s: string) => s.toLocaleLowerCase(),
     );
-    expect(sayHello("Gru")).toEqual("hello gru!");
+    expect(sayHello("Gru")).toEqual("hello gru");
 });

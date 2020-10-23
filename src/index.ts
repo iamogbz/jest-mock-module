@@ -13,6 +13,8 @@ function maybeSpyOnProp(object: AnyObj, propName: string) {
     try {
         return require("jest-mock-props").spyOnProp(object, propName);
     } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn("Failed to spy on property:", propName);
         return object[propName];
     }
 }
