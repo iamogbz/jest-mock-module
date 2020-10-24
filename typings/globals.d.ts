@@ -6,26 +6,25 @@ export type Entry<ObjectType> = {
 
 export type Entries<ObjectType> = Entry<ObjectType>[];
 
-export type Mapped<
-    ObjectType,
-    ReplacementType extends ObjectType
-> = ReplacementType & Omit<ObjectType, keyof ReplacementType>;
+export type Mapped<ObjectType, ResultType> = {
+    [K in keyof ObjectType]: ResultType;
+};
 
-export type MapFn<ObjectType, MappedObjectType extends ObjectType> = (
+export type MapFn<ObjectType, ResultType> = (
     value: Entry<ObjectType>,
     index: number,
     array: Entries<ObjectType>,
-) => MappedObjectType[keyof ObjectType];
+) => Mapped<ObjectType, ResultType>[keyof ObjectType];
 
 export type Mock<ObjectType> = {
     [K in keyof ObjectType]: Mock<ObjectType[K]>;
 };
 
-export type SpyOnModule = (moduleName: string) => void;
+export type SpyOn = (moduleName: string) => void;
 
 declare global {
     namespace jest {
-        const spy: SpyOnModule;
+        const spy: SpyOn;
     }
 }
 

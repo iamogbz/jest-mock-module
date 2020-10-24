@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`spys on object nested properties 1`] = `
+exports[`spies on object nested properties 1`] = `
 Object {
   "nested": Object {
     "propA": null,

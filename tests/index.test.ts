@@ -3,7 +3,7 @@ import { extend, spyOnObject } from "src/index";
 extend(jest);
 afterEach(jest.clearAllMocks);
 
-it("spys on methods called", () => {
+it("spies on methods called", () => {
     jest.spy("tests/mocks/hello");
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { say, shout } = require("./mocks/hello");
@@ -23,7 +23,7 @@ it("spys on methods called", () => {
     expect(sayHello("Gru")).toEqual("hello gru");
 });
 
-it("spys on object nested properties", () => {
+it("spies on object nested properties", () => {
     const obj = {
         prop1: 1,
         prop2: "two",
@@ -35,10 +35,13 @@ it("spys on object nested properties", () => {
             propB: true,
         },
     };
-    const spied = spyOnObject(obj);
+    const spied = spyOnObject(jest, obj);
     if (!spied) fail("Expect spied to be defined and not null");
     expect(obj).toMatchSnapshot();
     expect(jest.isMockProp(obj, "prop1")).toBe(true);
     expect(jest.isMockProp(obj, "prop2")).toBe(true);
     expect(jest.isMockFunction(obj.propFn)).toBe(true);
+    expect(jest.isMockProp(obj, "nested")).toBe(false);
+    expect(jest.isMockProp(obj.nested, "propA")).toBe(true);
+    expect(jest.isMockProp(obj.nested, "propB")).toBe(true);
 });

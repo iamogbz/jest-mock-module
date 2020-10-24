@@ -5,13 +5,13 @@ import { Entries, MapFn, Mapped } from "../typings/globals";
  * @param o the object to map on
  * @param callbackfn the function to be called with object entries returning new value
  */
-export function mapObject<ObjectType, MappedObjectType extends ObjectType>(
+export function mapObject<ObjectType, ResultType>(
     o: ObjectType,
-    callbackfn: MapFn<ObjectType, MappedObjectType>,
-): Mapped<ObjectType, MappedObjectType> {
+    callbackfn: MapFn<ObjectType, ResultType>,
+): Mapped<ObjectType, ResultType> {
     const entries = Object.entries(o) as Entries<ObjectType>;
     const newValues = entries.map(callbackfn);
-    const newObject = {} as Mapped<ObjectType, MappedObjectType>;
+    const newObject = {} as Mapped<ObjectType, ResultType>;
     entries.forEach(([key], i) => (newObject[key] = newValues[i]));
     return newObject;
 }

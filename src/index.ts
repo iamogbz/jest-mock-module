@@ -1,38 +1,41 @@
-import { ExtendJest, Mock, Optional, SpyOnModule } from "../typings/globals";
+import { ExtendJest, SpyOn } from "../typings/globals";
 import { mapObject } from "./utils";
 
-function maybeSpyOnProp<T>(object: T, propName: keyof T) {
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        return require("jest-mock-props").spyOnProp(object, propName);
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e.message);
-        return object[propName];
-    }
-}
-
-function spyOn<T>(object: T, propName: keyof T) {
+function spyOnProp<T>(
+    jestInstance: typeof jest,
+    object: T,
+    propName: keyof T,
+): unknown {
     const propValue = object[propName];
     const propType = typeof propValue;
     if (propType === "function") {
         // @ts-expect-error Jest does not play nice
-        return jest.spyOn(object, propName);
+        return jestInstance.spyOn(object, propName);
     }
-    if (propType === "object") {
-        return spyOnObject(propValue);
+    if (propType === "object" && propValue !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return spyOnObject(jestInstance, propValue);
     }
-    return maybeSpyOnProp(object, propName);
+    try {
+        return jestInstance.spyOnProp(object, propName);
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e.message);
+        return propValue;
+    }
 }
 
-export function spyOnObject<T>(o?: T): Optional<Mock<T>> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function spyOnObject<T>(jestInstance: typeof jest, o?: T) {
     if (o === undefined || o === null) return o;
-    return mapObject(o, ([k]) => spyOn(o, k));
+    return mapObject(o, ([k]) => spyOnProp(jestInstance, o, k));
 }
 
-export const spy: SpyOnModule = (moduleName) => {
-    const actualModule = jest.requireActual(moduleName);
-    jest.mock(moduleName, () => spyOnObject(actualModule));
+const attach = (jestInstance: typeof jest): SpyOn => (moduleName) => {
+    const actualModule = jestInstance.requireActual(moduleName);
+    jestInstance.mock(moduleName, () =>
+        spyOnObject(jestInstance, actualModule),
+    );
 };
 
 export const extend: ExtendJest = (jestInstance) => {
@@ -46,7 +49,7 @@ export const extend: ExtendJest = (jestInstance) => {
                 "spy on non function module properties.",
         );
     }
-    Object.assign(jestInstance, { spy });
+    Object.assign(jestInstance, { spy: attach(jestInstance) });
 };
 
 export * from "../typings/globals";
