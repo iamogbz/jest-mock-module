@@ -2,8 +2,8 @@
 
 [![Dependabot badge](https://badgen.net/dependabot/iamogbz/jest-mock-module/?icon=dependabot)](https://app.dependabot.com)
 [![Dependencies](https://david-dm.org/iamogbz/jest-mock-module.svg)](https://github.com/iamogbz/jest-mock-module)
-[![Build Status](https://travis-ci.org/iamogbz/jest-mock-module.svg?branch=master)](https://travis-ci.org/iamogbz/jest-mock-module)
-[![Coverage Status](https://coveralls.io/repos/github/iamogbz/jest-mock-module/badge.svg?branch=master&cache=1)](https://coveralls.io/github/iamogbz/jest-mock-module?branch=master)
+[![Build Status](https://github.com/iamogbz/jest-mock-module/workflows/Build/badge.svg)](https://github.com/iamogbz/jest-mock-module/actions)
+[![Coverage Status](https://coveralls.io/repos/github/iamogbz/jest-mock-module/badge.svg)](https://coveralls.io/github/iamogbz/jest-mock-module)
 [![NPM Version](https://img.shields.io/npm/v/jest-mock-module.svg)](https://www.npmjs.com/package/jest-mock-module)
 
 Extends jest to allow deep auto mocking of a module by spying on all functions and properties.
@@ -32,16 +32,16 @@ module.exports = {
 ```
 
 ```js
-import * as mockModule from "jest-mock-module";
-mockModule.extend(jest);
+import * as mock from "jest-mock-module";
+mock.extend(jest);
 
 jest.spy("src/example");
 
 const spied = require("src/example");
 
 jest.isMockProp(spied, "testing"); // true
-jest.isMockProp(spied.nested "test"); // true
 jest.isMockMethod(spied.nested.test); // true
+jest.isMockProp(spied.nested, "testing"); // true
 ```
 
 It keeps the same structure of the module but replaces all functions and properties with jest mocks.
