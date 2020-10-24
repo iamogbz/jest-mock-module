@@ -7,27 +7,22 @@ function maybeSpyOnProp<T>(object: T, propName: keyof T) {
         return require("jest-mock-props").spyOnProp(object, propName);
     } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn(
-            `Failed to spy on property ${propName}.`,
-            "You might be missing the 'jest-mock-props' peer dependency.",
-        );
+        console.warn(e.message);
         return object[propName];
     }
 }
 
 function spyOn<T>(object: T, propName: keyof T) {
     const propValue = object[propName];
-    let spyInstance;
-    if (typeof propValue === "function") {
+    const propType = typeof propValue;
+    if (propType === "function") {
         // @ts-expect-error Jest does not play nice
-        spyInstance = jest.spyOn(object, propName);
-    } else if (typeof propValue === "object") {
-        spyInstance = {};
-    } else {
-        spyInstance = maybeSpyOnProp(object, propName);
+        return jest.spyOn(object, propName);
     }
-    if (!spyInstance) return;
-    return Object.assign(spyInstance, spyOnObject(propValue));
+    if (propType === "object") {
+        return spyOnObject(propValue);
+    }
+    return maybeSpyOnProp(object, propName);
 }
 
 export function spyOnObject<T>(o?: T): Optional<Mock<T>> {
@@ -43,7 +38,7 @@ export const spy: SpyOnModule = (moduleName) => {
 export const extend: ExtendJest = (jestInstance) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        require("jest-mock-props").extend(jest);
+        require("jest-mock-props").extend(jestInstance);
     } catch (e) {
         // eslint-disable-next-line no-console
         console.info(
