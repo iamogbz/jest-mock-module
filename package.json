@@ -116,7 +116,6 @@
     "commit": "git-cz",
     "coveralls": "cat ./artifacts/coverage/lcov.info | coveralls",
     "lint": "eslint . --ext .js,.ts",
-    "package": "rm -rf ./dist && npm run build",
     "release": "semantic-release",
     "test": "jest",
     "typecheck": "tsc --noEmit"
