@@ -98,7 +98,7 @@
   "main": "lib/index.js",
   "name": "jest-mock-module",
   "release": {
-    "dryRun": true,
+    "dryRun": false,
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
