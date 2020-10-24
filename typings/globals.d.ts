@@ -1,3 +1,5 @@
+import "jest-mock-props";
+
 export type Optional<ObjectType> = ObjectType | null | undefined;
 
 export type Entry<ObjectType> = {
