@@ -1,13 +1,17 @@
-export type MapFn<I, O> = (value: I, index: number, array: I[]) => O;
+import { Entries, MapFn, Mapped } from "../typings/globals";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function mapObject<K extends keyof any, T, V>(
-    o: Record<K, T>,
-    callbackfn: MapFn<[K, T], V>,
-): Record<K, V> {
-    const entries = Object.entries(o) as [K, T][];
+/**
+ * Only maps on the string properties using Object.entries
+ * @param o the object to map on
+ * @param callbackfn the function to be called with object entries returning new value
+ */
+export function mapObject<ObjectType, MappedObjectType extends ObjectType>(
+    o: ObjectType,
+    callbackfn: MapFn<ObjectType, MappedObjectType>,
+): Mapped<ObjectType, MappedObjectType> {
+    const entries = Object.entries(o) as Entries<ObjectType>;
     const newValues = entries.map(callbackfn);
-    const newObject = {} as Record<K, V>;
+    const newObject = {} as Mapped<ObjectType, MappedObjectType>;
     entries.forEach(([key], i) => (newObject[key] = newValues[i]));
     return newObject;
 }

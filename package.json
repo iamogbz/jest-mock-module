@@ -14,7 +14,7 @@
         }
     },
     "dependencies": {
-        "jest-mock-props": "^1.7.5"
+        "jest-mock-props": "^1.8.1"
     },
     "description": "Project description",
     "devDependencies": {
@@ -36,32 +36,28 @@
         "commitizen": "^4.2.1",
         "coveralls": "^3.1.0",
         "cz-conventional-changelog": "^3.3.0",
-        "eslint": "^6.8.0",
+        "eslint": "^7.11.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-jsx-a11y": "^6.3.1",
         "eslint-plugin-prettier": "^3.1.4",
         "husky": "^4.3.0",
-        "jest": "^25.5.4",
+        "jest": "^26.6.1",
         "lint-staged": "^10.4.0",
         "prettier": "^2.1.2",
         "prettier-eslint": "^11.0.0",
         "rxjs": "^6.6.3",
         "semantic-release": "^17.1.2",
-        "stylelint": "^13.7.1",
-        "stylelint-config-standard": "^20.0.0",
-        "stylelint-config-styled-components": "^0.1.1",
-        "stylelint-processor-styled-components": "^1.10.0",
-        "ts-jest": "^25.5.1",
+        "ts-jest": "^26.4.2",
         "ts-node": "^9.0.0",
-        "typescript": "^3.9.7"
+        "typescript": "^4.0.3"
     },
     "engines": {
         "node": ">=8",
         "npm": ">=6"
     },
     "files": [
-        "dist",
+        "lib",
         "typings"
     ],
     "homepage": "https://github.com/iamogbz/jest-mock-module#readme",
@@ -77,10 +73,17 @@
             ".",
             "./node_modules"
         ],
+        "moduleFileExtensions": [
+            "node",
+            "js",
+            "ts",
+            "d.ts",
+            "json"
+        ],
         "preset": "ts-jest",
         "testPathIgnorePatterns": [
             "./artifacts/",
-            "./dist/",
+            "./lib/",
             "./node_modules/"
         ]
     },
@@ -92,14 +95,14 @@
             "npm test -- --bail --findRelatedTests"
         ]
     },
-    "main": "dist/index.js",
+    "main": "lib/index.js",
     "name": "jest-mock-module",
     "release": {
         "dryRun": true,
         "plugins": [
             "@semantic-release/commit-analyzer",
             "@semantic-release/release-notes-generator",
-            ["@semantic-release/npm", { "pkgRoot": "./dist"}],
+            "@semantic-release/npm",
             "@semantic-release/github"
         ]
     },
@@ -118,6 +121,6 @@
         "test": "jest",
         "typecheck": "tsc --noEmit"
     },
-    "types": "dist/index.d.ts",
+    "types": "lib/index.d.ts",
     "version": "0.0.1"
 }

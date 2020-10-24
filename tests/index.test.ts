@@ -1,4 +1,4 @@
-import { extend } from "src/index";
+import { extend, spyOnObject } from "src/index";
 extend(jest);
 jest.spy("tests/mocks/hello");
 
