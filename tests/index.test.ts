@@ -20,3 +20,19 @@ it("spys on methods called", () => {
     );
     expect(sayHello("Gru")).toEqual("hello gru");
 });
+
+it("spys on object nested properties", () => {
+    const obj = {
+        prop1: 1,
+        prop2: "two",
+        propFn(something: string) {
+            return `say ${something}`;
+        },
+        nested: {
+            propA: null,
+            propB: true,
+        },
+    };
+    const spied = spyOnObject(obj);
+    if (!spied) fail("Expect spied to be defined and not null");
+});

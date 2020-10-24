@@ -3,6 +3,7 @@ import { mapObject } from "./utils";
 
 function maybeSpyOnProp<T>(object: T, propName: keyof T) {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         return require("jest-mock-props").spyOnProp(object, propName);
     } catch (e) {
         // eslint-disable-next-line no-console
@@ -18,7 +19,7 @@ function spyOn<T>(object: T, propName: keyof T) {
     const propValue = object[propName];
     let spyInstance;
     if (typeof propValue === "function") {
-        // @ts-expect-error
+        // @ts-expect-error Jest does not play nice
         spyInstance = jest.spyOn(object, propName);
     } else if (typeof propValue === "object") {
         spyInstance = {};
@@ -41,6 +42,7 @@ export const spy: SpyOnModule = (moduleName) => {
 
 export const extend: ExtendJest = (jestInstance) => {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require("jest-mock-props").extend(jest);
     } catch (e) {
         // eslint-disable-next-line no-console
