@@ -1,126 +1,126 @@
 {
-    "author": "iamogbz",
-    "bugs": {
-        "url": "https://github.com/iamogbz/jest-mock-module/issues"
-    },
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ]
-    },
-    "config": {
-        "commitizen": {
-            "path": "cz-conventional-changelog"
-        }
-    },
-    "dependencies": {
-        "jest-mock-props": "^1.8.1"
-    },
-    "description": "Project description",
-    "devDependencies": {
-        "@babel/cli": "^7.12.1",
-        "@babel/core": "^7.12.3",
-        "@babel/preset-typescript": "^7.12.1",
-        "@commitlint/cli": "^11.0.0",
-        "@commitlint/config-conventional": "^11.0.0",
-        "@commitlint/travis-cli": "^11.0.0",
-        "@types/jest": "^26.0.15",
-        "@types/node": "^14.14.2",
-        "@typescript-eslint/eslint-plugin": "^4.5.0",
-        "@typescript-eslint/parser": "^4.5.0",
-        "acorn": "^8.0.1",
-        "babel-eslint": "^10.1.0",
-        "babel-loader": "^8.1.0",
-        "babel-plugin-transform-class-properties": "^6.24.1",
-        "canvas": "^2.6.1",
-        "commitizen": "^4.2.2",
-        "coveralls": "^3.1.0",
-        "cz-conventional-changelog": "^3.3.0",
-        "eslint": "^7.12.0",
-        "eslint-config-prettier": "^6.14.0",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-jsx-a11y": "^6.3.1",
-        "eslint-plugin-prettier": "^3.1.4",
-        "husky": "^4.3.0",
-        "jest": "^26.6.1",
-        "lint-staged": "^10.4.2",
-        "prettier": "^2.1.2",
-        "prettier-eslint": "^11.0.0",
-        "rxjs": "^6.6.3",
-        "semantic-release": "^17.2.1",
-        "ts-jest": "^26.4.2",
-        "ts-node": "^9.0.0",
-        "typescript": "^4.0.3"
-    },
-    "engines": {
-        "node": ">=8",
-        "npm": ">=6"
-    },
-    "files": [
-        "lib",
-        "typings"
+  "author": "iamogbz",
+  "bugs": {
+    "url": "https://github.com/iamogbz/jest-mock-module/issues"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "jest-mock-props": "^1.8.2"
+  },
+  "description": "Project description",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-typescript": "^7.12.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/travis-cli": "^11.0.0",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.2",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "acorn": "^8.0.1",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "canvas": "^2.6.1",
+    "commitizen": "^4.2.2",
+    "coveralls": "^3.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.12.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "jest": "^26.6.1",
+    "lint-staged": "^10.4.2",
+    "prettier": "^2.1.2",
+    "prettier-eslint": "^11.0.0",
+    "rxjs": "^6.6.3",
+    "semantic-release": "^17.2.1",
+    "ts-jest": "^26.4.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=6"
+  },
+  "files": [
+    "lib",
+    "typings"
+  ],
+  "homepage": "https://github.com/iamogbz/jest-mock-module#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "coverageDirectory": "./artifacts/coverage",
+    "moduleDirectories": [
+      ".",
+      "./node_modules"
     ],
-    "homepage": "https://github.com/iamogbz/jest-mock-module#readme",
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-            "pre-commit": "lint-staged"
-        }
-    },
-    "jest": {
-        "coverageDirectory": "./artifacts/coverage",
-        "moduleDirectories": [
-            ".",
-            "./node_modules"
-        ],
-        "moduleFileExtensions": [
-            "node",
-            "js",
-            "ts",
-            "d.ts",
-            "json"
-        ],
-        "preset": "ts-jest",
-        "testPathIgnorePatterns": [
-            "./artifacts/",
-            "./lib/",
-            "./node_modules/"
-        ]
-    },
-    "keywords": [],
-    "license": "Unlicense",
-    "lint-staged": {
-        "*.{js,ts}": [
-            "npm run lint",
-            "npm test -- --bail --findRelatedTests"
-        ]
-    },
-    "main": "lib/index.js",
-    "name": "jest-mock-module",
-    "release": {
-        "dryRun": true,
-        "plugins": [
-            "@semantic-release/commit-analyzer",
-            "@semantic-release/release-notes-generator",
-            "@semantic-release/npm",
-            "@semantic-release/github"
-        ]
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/iamogbz/jest-mock-module"
-    },
-    "scripts": {
-        "build": "tsc --project tsconfig.prod.json",
-        "build-watch": "tsc --watch",
-        "commit": "git-cz",
-        "coveralls": "cat ./artifacts/coverage/lcov.info | coveralls",
-        "lint": "eslint . --ext .js,.ts",
-        "package": "rm -rf ./dist && npm run build && cp -t ./dist package.json LICENSE",
-        "release": "semantic-release",
-        "test": "jest",
-        "typecheck": "tsc --noEmit"
-    },
-    "types": "lib/index.d.ts",
-    "version": "0.0.1"
+    "moduleFileExtensions": [
+      "node",
+      "js",
+      "ts",
+      "d.ts",
+      "json"
+    ],
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "./artifacts/",
+      "./lib/",
+      "./node_modules/"
+    ]
+  },
+  "keywords": [],
+  "license": "Unlicense",
+  "lint-staged": {
+    "*.{js,ts}": [
+      "npm run lint",
+      "npm test -- --bail --findRelatedTests"
+    ]
+  },
+  "main": "lib/index.js",
+  "name": "jest-mock-module",
+  "release": {
+    "dryRun": true,
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamogbz/jest-mock-module"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.prod.json",
+    "build-watch": "tsc --watch",
+    "commit": "git-cz",
+    "coveralls": "cat ./artifacts/coverage/lcov.info | coveralls",
+    "lint": "eslint . --ext .js,.ts",
+    "package": "rm -rf ./dist && npm run build && cp -t ./dist package.json LICENSE",
+    "release": "semantic-release",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "types": "lib/index.d.ts",
+  "version": "0.0.1"
 }

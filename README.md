@@ -15,5 +15,41 @@ Extends jest to allow deep auto mocking of a module by spying on all functions a
 Install the extension using [npm](https://docs.npmjs.com/cli/install.html) or [yarn](https://yarnpkg.com/en/docs/usage)
 
 ```sh
-npm install -D 'jest-mock-module'
+npm install -D "jest-mock-module"
 ```
+
+### Example Usage
+
+```js
+// src/example.js
+module.exports = {
+  testing: "123";
+  nested: {
+    test: () => true;
+    testing: "456";
+  }
+}
+```
+
+```js
+import * as mockModule from "jest-mock-module";
+mockModule.extend(jest);
+
+jest.spy("src/example");
+
+const spied = require("src/example");
+
+jest.isMockProp(spied, "testing"); // true
+jest.isMockProp(spied.nested "test"); // true
+jest.isMockMethod(spied.nested.test); // true
+```
+
+It keeps the same structure of the module but replaces all functions and properties with jest mocks.
+
+#### References
+
+- [`jest-spy-on`][jest-spyon-method] - Guide to spying on module methods
+- [`jest-mock-props`][jest-spyon-props] - Guide to spying on object properties
+
+[jest-spyon-method]:https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname]
+[jest-spyon-props]:https://ogbizi.com/jest-mock-props/
