@@ -46,10 +46,13 @@ jest.isMockProp(spied.nested, "testing"); // true
 
 It keeps the same structure of the module but replaces all functions and properties with jest mocks.
 
+- `jest.createSpyFromModule` is exported and can be used like [`jest.createMockFromModule`][jest-create-mock]. It is used internally by `jest.spy` in combination with `jest.mock` to provide a factory in place of Jest's automocking feature.
+
 #### References
 
 - [`jest-spy-on`][jest-spyon-method] - Guide to spying on module methods
 - [`jest-mock-props`][jest-spyon-props] - Guide to spying on object properties
 
-[jest-spyon-method]:https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname]
-[jest-spyon-props]:https://ogbizi.com/jest-mock-props/
+[jest-spyon-method]: https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname
+[jest-create-mock]: https://jestjs.io/docs/en/jest-object#jestcreatemockfrommodulemodulename
+[jest-spyon-props]: https://ogbizi.com/jest-mock-props/
