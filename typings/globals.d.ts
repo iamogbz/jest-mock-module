@@ -1,7 +1,5 @@
 import "jest-mock-props";
 
-export type Optional<ObjectType> = ObjectType | null | undefined;
-
 export type Entry<ObjectType> = {
   [K in keyof ObjectType]: [K, ObjectType[K]];
 }[keyof ObjectType];
@@ -23,9 +21,14 @@ export type Mock<ObjectType> = {
 };
 
 export type SpyOn = (moduleName: string) => void;
+export type CreateSpyOn = <T = unknown, U = T>(
+  moduleName: string,
+) => Mapped<T, U> | undefined;
 
 declare global {
   namespace jest {
+    const createSpyFromModule: CreateSpyOn;
+    const genSpyFromModule: CreateSpyOn;
     const spy: SpyOn;
   }
 }
