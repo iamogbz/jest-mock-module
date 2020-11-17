@@ -1,7 +1,7 @@
 import { CreateSpyOn, ExtendJest, SpyOn } from "../typings/globals";
 import { mapObject } from "./utils";
 
-function spyOnProp<T>(
+export function spyOnProp<T>(
   jestInstance: typeof jest,
   object: T,
   propName: keyof T,
@@ -26,13 +26,12 @@ function spyOnProp<T>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function spyOnObject<T>(jestInstance: typeof jest, o?: T) {
   if (o === undefined || o === null) return o;
   return mapObject(o, ([k]) => spyOnProp<T>(jestInstance, o, k));
 }
 
-function spyOnModule<T>(jestInstance: typeof jest, moduleName: string) {
+export function spyOnModule<T>(jestInstance: typeof jest, moduleName: string) {
   const actualModule = jestInstance.requireActual<T>(moduleName);
   return spyOnObject<T>(jestInstance, actualModule);
 }
