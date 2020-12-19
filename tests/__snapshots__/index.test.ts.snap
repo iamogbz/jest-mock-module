@@ -2,6 +2,11 @@
 
 exports[`spies on object nested properties 1`] = `
 Object {
+  "list": Array [
+    Object {
+      "propX": 2,
+    },
+  ],
   "nested": Object {
     "propA": null,
     "propB": true,

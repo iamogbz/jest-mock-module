@@ -1,3 +1,5 @@
+export const CALL = "Hello";
+
 export function say(what: string, who: string): string {
   return `${what} ${who}`;
 }

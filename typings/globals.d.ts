@@ -1,35 +1,91 @@
-import "jest-mock-props";
+import { MockProp } from "jest-mock-props";
 
-export type Entry<ObjectType> = {
-  [K in keyof ObjectType]: [K, ObjectType[K]];
-}[keyof ObjectType];
+declare const SpyMockProp: unique symbol;
 
-export type Entries<ObjectType> = Entry<ObjectType>[];
+export type AnyObject = Record<string, unknown>;
 
-export type Mapped<ObjectType, ResultType> = {
-  [K in keyof ObjectType]: ResultType;
+export type Entry<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T];
+
+export type Entries<T> = Entry<T>[];
+
+export type Mapped<T, U> = {
+  [K in keyof T]: U;
 };
 
-export type MapFn<ObjectType, ResultType> = (
-  value: Entry<ObjectType>,
+export type MapFn<T, U> = (
+  value: Entry<T>,
   index: number,
-  array: Entries<ObjectType>,
-) => Mapped<ObjectType, ResultType>[keyof ObjectType];
+  array: Entries<T>,
+) => Mapped<T, U>[keyof T];
 
-export type Mock<ObjectType> = {
-  [K in keyof ObjectType]: Mock<ObjectType[K]>;
-};
+type NonMappableTypes =
+  | bigint
+  | boolean
+  | unknown[]
+  | null
+  | number
+  | string
+  | symbol
+  | undefined;
+type NonMappablePropertyNames<T> = {
+  [K in keyof T]: T[K] extends NonMappableTypes ? K : never;
+}[keyof T] &
+  string;
 
-export type SpyOn = (moduleName: string) => void;
+type ObjectPropertyNames<T> = Exclude<
+  keyof T,
+  | jest.FunctionPropertyNames<T>
+  | jest.ConstructorPropertyNames<T>
+  | NonMappablePropertyNames<T>
+>;
+
+export type MockObject<T> = {
+  [K in NonMappablePropertyNames<T>]: MockProp<T, K>;
+} &
+  {
+    [K in ObjectPropertyNames<T>]: MockObject<T[K]>;
+  } &
+  {
+    [K in jest.FunctionPropertyNames<T>]: Required<T>[K] extends (
+      ...args: never[]
+    ) => unknown
+      ? jest.SpyInstance<
+          ReturnType<Required<T>[K]>,
+          jest.ArgsType<Required<T>[K]>
+        >
+      : never;
+  } &
+  {
+    [K in jest.ConstructorPropertyNames<T>]: Required<T>[K] extends new (
+      ...args: never[]
+    ) => unknown
+      ? jest.SpyInstance<
+          InstanceType<Required<T>[K]>,
+          jest.ConstructorArgsType<Required<T>[K]>
+        >
+      : never;
+  };
+
+export type IsMockObject = <T>(
+  o: T,
+) => o is T & { [SpyMockProp]?: MockObject<T> };
+
 export type CreateSpyOn = <T = unknown, U = T>(
   moduleName: string,
 ) => Mapped<T, U> | undefined;
 
+export type Spy = (moduleName: string) => void;
+
 declare global {
   namespace jest {
+    const isMockObject: IsMockObject;
     const createSpyFromModule: CreateSpyOn;
     const genSpyFromModule: CreateSpyOn;
-    const spy: SpyOn;
+    const spy: Spy;
+    function spyOn<T>(object: T): MockObject<T>;
+    const spyOnObject: typeof spyOn;
   }
 }
 
