@@ -37,11 +37,20 @@ mock.extend(jest);
 
 jest.spy("src/example");
 
-const spied = require("src/example");
+const example = require("src/example");
 
-jest.isMockProp(spied, "testing"); // true
-jest.isMockMethod(spied.nested.test); // true
-jest.isMockProp(spied.nested, "testing"); // true
+// Check module object properties
+jest.isMockProp(example, "testing"); // true
+console.log(example.testing); // 123
+
+// Respy on module object to get mockable
+jest.spyOn(example).testing.mockValueOnce("789");
+console.log(example.testing); // 789
+console.log(example.testing); // 123
+
+// Check module nested object properties
+jest.isMockMethod(example.nested.test); // true
+jest.isMockProp(example.nested, "testing"); // true
 ```
 
 It keeps the same structure of the module but replaces all functions and properties with jest mocks.
