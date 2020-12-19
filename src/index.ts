@@ -1,5 +1,11 @@
 import { SpyOnProp } from "jest-mock-props";
-import { CreateSpyOn, ExtendJest, MockObject, SpyOn } from "../typings/globals";
+import {
+  AnyObject,
+  CreateSpyOn,
+  ExtendJest,
+  MockObject,
+  Spy,
+} from "../typings/globals";
 import { mapObject } from "./utils";
 
 const SpyMockProp = Symbol("__mock__");
@@ -9,27 +15,35 @@ type JestSpyInstance = {
   spyOnProp: SpyOnProp;
 } & Partial<typeof jest>;
 
+function isFunction<T>(o: T): boolean {
+  return typeof o === "function";
+}
+
+function isPlainObject<T>(o: T): o is T & AnyObject {
+  return typeof o == "object" && (o as AnyObject)?.constructor == Object;
+}
+
 export function spyOnProp<T>(
   jestInstance: JestSpyInstance,
   object: T,
   propName: keyof T,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
-  const propValue = object[propName];
-  const propType = typeof propValue;
-  if (propType === "function") {
-    // @ts-expect-error Jest does not play nice
-    return jestInstance.spyOn(object, propName);
+  if (isFunction(object[propName])) {
+    return jestInstance.spyOn(
+      object,
+      propName as jest.FunctionPropertyNames<Required<T>>,
+    );
   }
-  if (propType === "object" && propValue !== null) {
-    return spyOnObject(jestInstance, propValue);
+  if (isPlainObject(object[propName])) {
+    return spyOnObject(jestInstance, object[propName]);
   }
   try {
     return jestInstance.spyOnProp(object, propName);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn(e.message);
-    return propValue;
+    return object[propName];
   }
 }
 
@@ -61,7 +75,7 @@ function bind(jestInstance: typeof jest) {
   const createSpyFromModule: CreateSpyOn = <T>(moduleName: string) => {
     return spyOnModule<T>(jestInstance, moduleName);
   };
-  const spy: SpyOn = (moduleName: string) => {
+  const spy: Spy = (moduleName: string) => {
     jest.mock(moduleName, () => createSpyFromModule(moduleName));
   };
   return {

@@ -1,6 +1,6 @@
 import "jest-mock-props";
 import * as utils from "src/utils";
-import { extend, isMockObject, spyOnModule, spyOnObject } from "src/index";
+import { extend, isMockObject, spyOnModule } from "src/index";
 
 extend(jest);
 jest.spyOn(utils, "mapObject");
@@ -49,16 +49,22 @@ it("spies on object nested properties", () => {
       propA: null,
       propB: true,
     },
+    list: [{ propX: 2 }],
   };
-  const spied = spyOnObject(jest, obj);
+  const spied = jest.spyOn(obj);
   if (!spied) fail("Expect spied to be defined and not null");
   expect(obj).toMatchSnapshot();
   expect(jest.isMockProp(obj, "prop1")).toBe(true);
   expect(jest.isMockProp(obj, "prop2")).toBe(true);
   expect(jest.isMockFunction(obj.propFn)).toBe(true);
+  expect(jest.isMockProp(obj, "list")).toBe(true);
   expect(jest.isMockProp(obj, "nested")).toBe(false);
   expect(jest.isMockProp(obj.nested, "propA")).toBe(true);
   expect(jest.isMockProp(obj.nested, "propB")).toBe(true);
+
+  spied.list.mockValueOnce([]);
+  expect(obj.list).toHaveLength(0);
+  expect(obj.list).toHaveLength(1);
 
   // @ts-expect-error allow assignment
   spied.nested.propA.mockValueOnce(1);
