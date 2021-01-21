@@ -37,7 +37,7 @@
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
-    "semantic-release": "^17.3.4",
+    "semantic-release": "^17.3.6",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
