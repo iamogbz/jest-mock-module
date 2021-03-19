@@ -30,10 +30,14 @@ jobs:
     - name: Test
       env:
         CI: true
+      run: |
+        npm test -- --ci --coverage
+    - name: Report
+      if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+      env:
         COVERALLS_GIT_BRANCH: ${{ github.ref }}
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
-        npm test -- --ci --coverage
         npm run coveralls
     - name: Build
       run: |
