@@ -28,11 +28,11 @@ it("spies on methods called", () => {
   expect(sayHello("You")).toEqual("HELLO YOU!");
   expect(hello.say).toHaveBeenCalledTimes(2);
   expect(hello.shout).toHaveBeenCalledTimes(2);
-  ((hello.say as unknown) as jest.SpyInstance).mockImplementationOnce(
+  (hello.say as unknown as jest.SpyInstance).mockImplementationOnce(
     () => "something",
   );
   expect(sayHello("Who")).toEqual("SOMETHING!");
-  ((hello.shout as unknown) as jest.SpyInstance).mockImplementationOnce(
+  (hello.shout as unknown as jest.SpyInstance).mockImplementationOnce(
     (s: string) => s.toLocaleLowerCase(),
   );
   expect(sayHello("Gru")).toEqual("hello gru");
