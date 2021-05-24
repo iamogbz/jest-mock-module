@@ -23,7 +23,7 @@
     "@types/jest": "^26.0.23",
     "@types/node": "^15.3.0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "acorn": "^8.2.4",
     "canvas": "^2.8.0",
     "commitizen": "^4.2.4",
