@@ -22,7 +22,7 @@
     "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.1",
     "acorn": "^8.4.1",
     "canvas": "^2.8.0",
