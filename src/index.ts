@@ -42,7 +42,7 @@ export function spyOnProp<T>(
     return jestInstance.spyOnProp(object, propName);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.warn(e.message);
+    console.warn((e as Error).message);
     return object[propName];
   }
 }
