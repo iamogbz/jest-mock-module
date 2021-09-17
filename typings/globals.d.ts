@@ -43,30 +43,27 @@ type ObjectPropertyNames<T> = Exclude<
 
 export type MockObject<T> = {
   [K in NonMappablePropertyNames<T>]: MockProp<T, K>;
-} &
-  {
-    [K in ObjectPropertyNames<T>]: MockObject<T[K]>;
-  } &
-  {
-    [K in jest.FunctionPropertyNames<T>]: Required<T>[K] extends (
-      ...args: never[]
-    ) => unknown
-      ? jest.SpyInstance<
-          ReturnType<Required<T>[K]>,
-          jest.ArgsType<Required<T>[K]>
-        >
-      : never;
-  } &
-  {
-    [K in jest.ConstructorPropertyNames<T>]: Required<T>[K] extends new (
-      ...args: never[]
-    ) => unknown
-      ? jest.SpyInstance<
-          InstanceType<Required<T>[K]>,
-          jest.ConstructorArgsType<Required<T>[K]>
-        >
-      : never;
-  };
+} & {
+  [K in ObjectPropertyNames<T>]: MockObject<T[K]>;
+} & {
+  [K in jest.FunctionPropertyNames<T>]: Required<T>[K] extends (
+    ...args: never[]
+  ) => unknown
+    ? jest.SpyInstance<
+        ReturnType<Required<T>[K]>,
+        jest.ArgsType<Required<T>[K]>
+      >
+    : never;
+} & {
+  [K in jest.ConstructorPropertyNames<T>]: Required<T>[K] extends new (
+    ...args: never[]
+  ) => unknown
+    ? jest.SpyInstance<
+        InstanceType<Required<T>[K]>,
+        jest.ConstructorArgsType<Required<T>[K]>
+      >
+    : never;
+};
 
 export type IsMockObject = <T>(
   o: T,
