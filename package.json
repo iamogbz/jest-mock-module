@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "jest-mock-props": "^1.9.0"
+    "jest-mock-props": "^1.9.1"
   },
   "description": "Project description",
   "devDependencies": {
