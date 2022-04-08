@@ -75,8 +75,10 @@ function bind(jestInstance: typeof jest) {
   const createSpyFromModule: CreateSpyOn = <T>(moduleName: string) => {
     return spyOnModule<T>(jestInstance, moduleName);
   };
-  const spy: Spy = (moduleName: string) => {
-    jest.mock(moduleName, () => createSpyFromModule(moduleName));
+  const spy: Spy = <T>(moduleName: string) => {
+    const spied = createSpyFromModule<T>(moduleName);
+    jest.mock(moduleName, () => spied);
+    return spied;
   };
   return {
     createSpyFromModule,
@@ -101,15 +103,10 @@ export const extend: ExtendJest = (jestInstance) => {
   const spyOnProp = jestInstance.spyOnProp;
   Object.assign(jestInstance, bind(jestInstance), {
     isMockObject,
-    spyOn: <T>(
-      object: T,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      propName: any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      accessType: any,
-    ) => {
+    spyOn: <T>(object: T, propName: keyof T, accessType: "get" | "set") => {
       if (!propName) return spyOnObject({ spyOn, spyOnProp }, object);
-      return spyOn(object, propName, accessType);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return spyOn(object, propName as any, accessType as any);
     },
   });
 };
