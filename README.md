@@ -35,6 +35,7 @@ module.exports = {
 import * as mock from "jest-mock-module";
 mock.extend(jest);
 
+// Only to be used on valid modules
 jest.spy("src/example");
 
 const example = require("src/example");
