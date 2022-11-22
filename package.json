@@ -23,7 +23,7 @@
     "@types/babel__core": "^7.1.19",
     "@types/jest": "^27.5.0",
     "@types/node": "^18.7.13",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^4.33.0",
     "acorn": "^8.8.0",
     "canvas": "^2.9.3",
