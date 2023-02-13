@@ -19,7 +19,7 @@
   "description": "Project description",
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
+    "@commitlint/config-conventional": "^17.4.3",
     "@types/babel__core": "^7.1.19",
     "@types/jest": "^27.5.0",
     "@types/node": "^18.7.13",
