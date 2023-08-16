@@ -5,7 +5,7 @@ import { Entries, MapFn, Mapped } from "../typings/globals";
  * @param o the object to map on
  * @param callbackfn the function to be called with object entries returning new value
  */
-export function mapObject<ObjectType, ResultType>(
+export function mapObject<ObjectType extends object, ResultType>(
   o: ObjectType,
   callbackfn: MapFn<ObjectType, ResultType>,
 ): Mapped<ObjectType, ResultType> {

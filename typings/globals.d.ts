@@ -10,11 +10,11 @@ export type Entry<T> = {
 
 export type Entries<T> = Entry<T>[];
 
-export type Mapped<T, U> = {
+export type Mapped<T extends object, U> = {
   [K in keyof T]: U;
 };
 
-export type MapFn<T, U> = (
+export type MapFn<T extends object, U> = (
   value: Entry<T>,
   index: number,
   array: Entries<T>,
@@ -69,7 +69,7 @@ export type IsMockObject = <T>(
   o: T,
 ) => o is T & { [SpyMockProp]?: MockObject<T> };
 
-export type CreateSpyOn = <T = unknown, U = T>(
+export type CreateSpyOn = <T extends object, U>(
   moduleName: string,
 ) => Mapped<T, U> | undefined;
 

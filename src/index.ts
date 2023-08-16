@@ -1,11 +1,5 @@
 import { SpyOnProp } from "jest-mock-props";
-import {
-  AnyObject,
-  CreateSpyOn,
-  ExtendJest,
-  MockObject,
-  Spy,
-} from "../typings/globals";
+import { AnyObject, ExtendJest, MockObject, Spy } from "../typings/globals";
 import { mapObject } from "./utils";
 
 const SpyMockProp = Symbol("__mock__");
@@ -23,7 +17,7 @@ function isPlainObject<T>(o: T): o is T & AnyObject {
   return typeof o == "object" && (o as AnyObject)?.constructor == Object;
 }
 
-export function spyOnProp<T>(
+export function spyOnProp<T extends object>(
   jestInstance: JestSpyInstance,
   object: T,
   propName: keyof T,
@@ -53,7 +47,7 @@ export function isMockObject<T>(
   return !!o && Object.prototype.hasOwnProperty.call(o, SpyMockProp);
 }
 
-export function spyOnObject<T>(
+export function spyOnObject<T extends object>(
   jestInstance: JestSpyInstance,
   o: T,
 ): MockObject<T> {
@@ -61,7 +55,7 @@ export function spyOnObject<T>(
   return mapObject(o, ([k]) => spyOnProp<T>(jestInstance, o, k));
 }
 
-export function spyOnModule<T>(
+export function spyOnModule<T extends object>(
   jestInstance: typeof jest,
   moduleName: string,
 ): T & { [SpyMockProp]?: MockObject<T> } {
@@ -72,10 +66,10 @@ export function spyOnModule<T>(
 }
 
 function bind(jestInstance: typeof jest) {
-  const createSpyFromModule: CreateSpyOn = <T>(moduleName: string) => {
+  const createSpyFromModule = <T extends object>(moduleName: string) => {
     return spyOnModule<T>(jestInstance, moduleName);
   };
-  const spy: Spy = <T>(moduleName: string) => {
+  const spy: Spy = <T extends object>(moduleName: string) => {
     const spied = createSpyFromModule<T>(moduleName);
     jest.mock(moduleName, () => spied);
     return spied;
@@ -84,7 +78,7 @@ function bind(jestInstance: typeof jest) {
     createSpyFromModule,
     genSpyFromModule: createSpyFromModule,
     spy,
-    spyOnObject: <T>(o: T) => spyOnObject(jestInstance, o),
+    spyOnObject: <T extends object>(o: T) => spyOnObject(jestInstance, o),
   };
 }
 
@@ -103,10 +97,14 @@ export const extend: ExtendJest = (jestInstance) => {
   const spyOnProp = jestInstance.spyOnProp;
   Object.assign(jestInstance, bind(jestInstance), {
     isMockObject,
-    spyOn: <T>(object: T, propName: keyof T, accessType: "get" | "set") => {
-      if (!propName) return spyOnObject({ spyOn, spyOnProp }, object);
+    spyOn: <T extends object>(
+      obj: T,
+      propName: keyof T,
+      accessType: "get" | "set",
+    ) => {
+      if (!propName) return spyOnObject({ spyOn, spyOnProp }, obj);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return spyOn(object, propName as any, accessType as any);
+      return spyOn(obj, propName as any, accessType as any);
     },
   });
 };

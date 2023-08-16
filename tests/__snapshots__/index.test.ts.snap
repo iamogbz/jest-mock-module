@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`spies on object nested properties 1`] = `
-Object {
-  "list": Array [
-    Object {
+{
+  "list": [
+    {
       "propX": 2,
     },
   ],
-  "nested": Object {
+  "nested": {
     "propA": null,
     "propB": true,
   },
