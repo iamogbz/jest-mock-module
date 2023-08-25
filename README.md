@@ -12,11 +12,33 @@ Extends jest to allow deep auto mocking of a module by spying on all functions a
 
 ### Getting Started
 
-Install the extension using [npm](https://docs.npmjs.com/cli/install.html) or [yarn](https://yarnpkg.com/en/docs/usage)
+Install the extension using [pnpm](https://pnpm.io/installation), [npm](https://docs.npmjs.com/cli/install.html), [yarn](https://yarnpkg.com/en/docs/usage) etc.
 
 ```sh
 npm install -D "jest-mock-module"
 ```
+
+### The Jest Object
+
+The jest object needs to be extended in every test file. This allows access to the `jest-mock-module` api.
+
+#### `jest.spy(moduleName)`
+
+This works like [jest.doMock][jest-do-mock].
+
+The main difference is a factory does not need to be provided as it automatically generates one using [`jest.createSpyFromModule`](#jestcreatespyfrommodulemodulename).
+
+Internally uses [`jest.mock`][jest-mock] so works with other `jest` mocking methods.
+
+#### `jest.createSpyFromModule(moduleName)`
+
+This works like [jest.createMockFromModule][jest-create-mock].
+
+The main difference is the returned mock is created using [`jest.spyOnObject`](#jestspyonobjectobject).
+
+#### `jest.spyOnObject(object)`
+
+This creates a deep mock of the object spying on all the internal properties using [jest-spy-on][jest-spyon-props].
 
 ### Example Usage
 
@@ -38,6 +60,8 @@ mock.extend(jest);
 // Only to be used on valid modules
 jest.spy("src/example");
 
+// Since babel-jest does not hoist jest.spy
+// import calls need to come after the spy mock
 const example = require("src/example");
 
 // Check module object properties
@@ -65,4 +89,6 @@ It keeps the same structure of the module but replaces all functions and propert
 
 [jest-spyon-method]: https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname
 [jest-create-mock]: https://jestjs.io/docs/en/jest-object#jestcreatemockfrommodulemodulename
-[jest-spyon-props]: https://ogbizi.com/jest-mock-props/
+[jest-do-mock]: https://jestjs.io/docs/en/jest-object#jestdomockmodulename-factory-options
+[jest-mock]: https://jestjs.io/docs/jest-object#jestmockmodulename-factory-options
+[jest-spyon-props]: https://ogbizi.com/jest-mock-props#mock-properties
