@@ -14,30 +14,30 @@ function isFunction<T>(o: T): boolean {
 }
 
 function isPlainObject<T>(o: T): o is T & AnyObject {
-  return typeof o == "object" && (o as AnyObject)?.constructor == Object;
+  return typeof o == "object" && o?.constructor == Object;
 }
 
 export function spyOnProp<T extends object>(
   jestInstance: JestSpyInstance,
   object: T,
   propName: keyof T,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): any {
-  if (isFunction(object[propName])) {
+) {
+  const objPropValue = object[propName];
+  if (isFunction(objPropValue)) {
     return jestInstance.spyOn(
       object,
       propName as jest.FunctionPropertyNames<Required<T>>,
     );
   }
-  if (isPlainObject(object[propName])) {
-    return spyOnObject(jestInstance, object[propName]);
+  if (isPlainObject(objPropValue)) {
+    return spyOnObject(jestInstance, objPropValue);
   }
   try {
     return jestInstance.spyOnProp(object, propName);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn((e as Error).message);
-    return object[propName];
+    return objPropValue;
   }
 }
 
@@ -52,7 +52,9 @@ export function spyOnObject<T extends object>(
   o: T,
 ): MockObject<T> {
   if (isMockObject(o)) return o[SpyMockProp];
-  return mapObject(o, ([k]) => spyOnProp<T>(jestInstance, o, k));
+  return mapObject(o, ([k]) =>
+    spyOnProp<T>(jestInstance, o, k),
+  ) as unknown as MockObject<T>;
 }
 
 export function spyOnModule<T extends object>(
@@ -100,11 +102,10 @@ export const extend: ExtendJest = (jestInstance) => {
     spyOn: <T extends object>(
       obj: T,
       propName: keyof T,
-      accessType: "get" | "set",
+      accessType: jest.PropertyAccessors<keyof T, T>,
     ) => {
       if (!propName) return spyOnObject({ spyOn, spyOnProp }, obj);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return spyOn(obj, propName as any, accessType as any);
+      return spyOn(obj, propName, accessType);
     },
   });
 };
